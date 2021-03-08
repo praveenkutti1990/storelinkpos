@@ -21,6 +21,7 @@
             <option value="all">All Sales</option>
             <option value="sale">POS Sales</option>
             <option value="invoice">Invoices</option>
+            <option value="purchase">Purchases</option>
         </select>
         </label>
     </div>
@@ -55,6 +56,7 @@
         var type = $("#reptype").val();
         // load the data
         repdata = WPOS.sendJsonData(type, JSON.stringify({"stime":stime, "etime":etime, "type":$("#reptranstype").val()}));
+        console.log($("#reptranstype").val());
         // populate the report using the correct function
         switch (type){
             case "stats/general":
@@ -104,8 +106,14 @@
 
     function populateSummary(){
         var html = getReportHeader("Summary");
+
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td></td><td># Sales</td><td>Total</td></tr></thead><tbody>";
-        html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.salerefs+'\');">Sales</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.saletotal)+'</td></tr>';
+        if($("#reptranstype").val()=="purchase"){
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.salerefs+'\');">Purchases</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.saletotal)+'</td></tr>';
+        }else{
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.salerefs+'\');">Sales</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.saletotal)+'</td></tr>';
+        }
+        
         html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.refundrefs+'\');">Refunds</a></td><td>'+repdata.refundnum+'</td><td>'+WPOS.util.currencyFormat(repdata.refundtotal)+'</td></tr>';
         html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.voidrefs+'\');">Voids</a></td><td>'+repdata.voidnum+'</td><td>'+WPOS.util.currencyFormat(repdata.voidtotal)+'</td></tr>';
         html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.refs+'\');">Revenue</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.totaltakings)+'</td></tr>';

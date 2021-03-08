@@ -171,7 +171,7 @@
         }
 
         var csv = WPOS.data2CSV(
-            ['ID', 'Reference', 'User', 'Device', 'Location', 'Customer ID', 'Customer Email', 'Items', '# Items', 'Payments', 'Subtotal', 'Discount', 'Total', 'Sale DT', 'Created DT', 'Status', 'JSON Data'],
+            ['ID', 'Reference', 'User', 'Device', 'Location', 'Customer ID', 'Customer Email', 'Items', '# Items', 'Payments', 'Subtotal', 'Tax','Discount', 'Total', 'Sale DT', 'Created DT', 'Status', 'JSON Data'],
             [
                 'id', 'ref',
                 {key:'userid', func: function(value){
@@ -202,7 +202,7 @@
                     }
                     return paystr;
                 }},
-                'subtotal', 'discount', 'total',
+                'subtotal', 'tax', 'discount', 'total',
                 {key:'processdt', func: function(value){
                     return WPOS.util.getDateFromTimestamp(value, 'Y-m-d');
                 }},

@@ -364,7 +364,7 @@ class WposPurchases {
             // decrement stock
             if ($this->data->sitemid>0){
                 $wposStock = new WposAdminStock();
-                $wposStock->incrementStockLevel($this->data->sitemid, 0, $this->data->qty, true);
+                $wposStock->incrementStockLevel($this->data->sitemid, 0, $this->data->qty, false);
             }
             // Create transaction history record
             WposTransactions::addTransactionHistory($this->id, $_SESSION['userId'], "Modified", "Item Added");
@@ -592,7 +592,7 @@ class WposPurchases {
         // add items
         if (isset($this->invoice->items)){
             foreach ($this->invoice->items as $key=>$item){
-                $item->price = round(floatval($item->qty)*floatval($item->unit), 2);
+                $item->price = round(floatval($item->qty)*floatval($item->cost), 2);
                 $this->invoice->numitems += $item->qty;
                 // add tax data to totals
                 foreach ($this->invoice->items[$key]->tax->values as $taxid=>$taxval){

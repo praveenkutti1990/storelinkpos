@@ -1510,7 +1510,6 @@ function WPOS() {
     this.print = new WPOSPrint();
     this.orders = new WPOSOrders();
     this.util = new WPOSUtil();
-    //this.purchases = new WPOSPurchases();
 
     if (typeof(WPOSEftpos) === 'function')
         this.eftpos = new WPOSEftpos();

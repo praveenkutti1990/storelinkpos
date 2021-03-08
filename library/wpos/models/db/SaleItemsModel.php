@@ -204,6 +204,8 @@ class SaleItemsModel extends DbConfig
             $placeholders[':type'] = $ttype;
         }
 
+        $sql.= ' AND s.type != "purchase"';
+
         $sql.= ' GROUP BY groupid, name';
 
         return $this->select($sql, $placeholders);

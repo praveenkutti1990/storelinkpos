@@ -35,7 +35,7 @@
                             </th>
                             <th data-priority="1">ID</th>
                             <th data-priority="8">Ref</th>
-                            <th data-priority="3">Customer</th>
+                            <th data-priority="3">Supplier</th>
                             <th data-priority="9">User</th>
                             <th data-priority="4">Invoice Date</th>
                             <th data-priority="10">Due Date</th>
@@ -58,7 +58,7 @@
 </div><!-- /.row -->
 <div id="addinvoicedialog" class="hide" style="padding-left: 20px; padding-right: 20px;">
     <form id="addinvoiceform">
-        <label class="fixedlabel">Customer: </label><select style="width: 180px;" id="ninvcustid"></select>
+        <label class="fixedlabel">Supplier: </label><select style="width: 180px;" id="ninvcustid"></select>
         <div class="space-8"></div>
         <label class="fixedlabel">Invoice Date: </label><input type="text" id="ninvprocessdt" onclick="$(this).blur();"/>
         <div class="space-8"></div>
@@ -208,7 +208,7 @@
         }
 
         var csv = WPOS.data2CSV(
-            ['ID', 'Reference', 'User', 'Device', 'Location', 'Customer ID', 'Customer Email', 'Items', '# Items', 'Payments', 'Subtotal', 'Discount', 'Total', 'Balance', 'Invoice DT', 'Due DT', 'Created DT', 'Status', 'JSON Data'],
+            ['ID', 'Reference', 'User', 'Device', 'Location', 'Supplier ID', ' Supplier Name', 'Items', '# Items', 'Payments', 'Subtotal', 'Tax', 'Discount', 'Total', 'Balance', 'Invoice DT', 'Due DT', 'Created DT', 'Status', 'JSON Data'],
             [
                 'id', 'ref',
                 {key:'userid', func: function(value){
@@ -222,7 +222,7 @@
                 }},
                 'custid',
                 {key:'custid', func: function(value){
-                    return '';//customers.hasOwnProperty(value) ? customers[value].email : '';
+                    return customers.hasOwnProperty(value) ? customers[value].name : '';
                 }},
                 {key:'items', func: function(value){
                     var itemstr = '';
@@ -239,7 +239,7 @@
                     }
                     return paystr;
                 }},
-                'subtotal', 'discount', 'total', 'balance',
+                'subtotal', 'tax', 'discount', 'total', 'balance',
                 {key:'processdt', func: function(value){
                     return WPOS.util.getDateFromTimestamp(value, 'Y-m-d');
                 }},

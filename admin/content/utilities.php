@@ -215,6 +215,7 @@
     }
 
     function exportDB(){
+        console.log(document.location.host);
         $("#dlframe").attr('src', 'https://'+document.location.host+'/api/wpos.php?a=db%2Fbackup');
     }
 

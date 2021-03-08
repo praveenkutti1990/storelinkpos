@@ -23,6 +23,7 @@
 function WPOSTransactions() {
     var transactions = {};
     var items = null;
+    var purchasemode = false;
     // functions for opening info dialogs and populating data
     var curref;
     var curid;
@@ -45,6 +46,7 @@ function WPOSTransactions() {
         transdialog.dialog("option", "position", {my: "center", at: "center", of: window});
         transdialog.trigger("resize");
     };
+
     this.loadTransactionListDetails = function(){
 
         var translist = $("#translist");
@@ -65,6 +67,7 @@ function WPOSTransactions() {
         $("#translistdialog").dialog("option", "position", {my: "center", at: "center", of: window});
     };
     this.openTransactionDialog = function(ref){
+        purchasemode = false;
         // Initiate UI
         if (!uiinit) initUI();
         // Check for transaction record
@@ -128,6 +131,7 @@ function WPOSTransactions() {
     };
 
     this.openPurchaseTransactionDialog = function(ref){
+        purchasemode = true;
         // Initiate UI
         if (!uiinit) initUI();
         // Check for transaction record
@@ -480,7 +484,13 @@ function WPOSTransactions() {
     };
 
     function calculateItemTotals() {
-        var itemprice = Number( (parseFloat($('#transitemunit').val()) * parseFloat($('#transitemqty').val())));
+        var itemprice;
+        if(purchasemode){
+            itemprice = Number( (parseFloat($('#transitemcost').val()) * parseFloat($('#transitemqty').val())));
+        }else{
+            itemprice = Number( (parseFloat($('#transitemunit').val()) * parseFloat($('#transitemqty').val())));
+        }
+        //var itemprice = Number( (parseFloat($('#transitemunit').val()) * parseFloat($('#transitemqty').val())));
         var itemcost = Number( (parseFloat($('#transitemcost').val()) * parseFloat($('#transitemqty').val())));
         itemprice = isNaN(itemprice) ? 0 : itemprice;
         // calculate item tax
@@ -607,7 +617,12 @@ function WPOSTransactions() {
             var result = WPOS.sendJsonData("invoices/edit", JSON.stringify({id: curid, processdt: $("#invprocessdt").datepicker("getDate").getTime(), duedt: $("#invduedt").datepicker("getDate").getTime(), closedt: ($("#invclosedt").val() == "" ? "" : $("#invclosedt").datepicker("getDate").getTime()), discount: $("#invdiscountval").val(), notes: $('#transnotes').val()}));
             if (result !== false) {
                 transactions[curref] = result;
-                this.openTransactionDialog(curref);
+                if(purchasemode){
+                    this.openPurchaseTransactionDialog(curref);
+                }else{
+                    this.openTransactionDialog(curref);
+                }
+                //this.openTransactionDialog(curref);
                 reloadTransactionTables();
             }
             // hide loader
@@ -620,17 +635,32 @@ function WPOSTransactions() {
         var action, itemid = $("#transitemid").val();
         var data = {id: curid, sitemid: $("#transitemsitemid").val(), qty: $("#transitemqty").val(), name: $('#transitemname').val(), alt_name: $('#transitemaltname').val(), desc: $('#transitemdesc').val(), cost: $('#transitemcost').val(), unit: $('#transitemunit').val(), taxid: $('#transitemtaxid').val(), tax: JSON.parse($('#transitemtaxval').val()), price: $('#transitempriceval').val()};
         if (itemid == 0) {
-            action = "invoices/items/add";
+            if(purchasemode){
+                action = "purchases/items/add";
+            }else{
+                action = "invoices/items/add";
+            }
+            //action = "invoices/items/add";
             data.unit_original = $('#transitemunit').data("unit_original");
         } else {
-            action = "invoices/items/edit";
+            if(purchasemode){
+                action = "purchases/items/edit";
+            }else{
+                action = "invoices/items/edit";
+            }
+            //action = "invoices/items/edit";
             data.itemid = itemid;
         }
         var result = WPOS.sendJsonData(action, JSON.stringify(data));
         if (result !== false) {
             transactions[curref] = result;
             $("#transitemdialog").dialog('close');
-            this.openTransactionDialog(curref);
+            if(purchasemode){
+                this.openPurchaseTransactionDialog(curref);
+            }else{
+                this.openTransactionDialog(curref);
+            }
+            //this.openTransactionDialog(curref);
             reloadTransactionTables();
         }
         // hide loader
@@ -644,7 +674,12 @@ function WPOSTransactions() {
             var result = WPOS.sendJsonData("invoices/items/delete", JSON.stringify({id: curid, itemid: id}));
             if (result !== false) {
                 transactions[curref] = result;
-                this.openTransactionDialog(curref);
+                if(purchasemode){
+                    this.openPurchaseTransactionDialog(curref);
+                }else{
+                    this.openTransactionDialog(curref);
+                }
+                //this.openTransactionDialog(curref);
                 reloadTransactionTables();
             }
             WPOS.util.hideLoader();
@@ -657,16 +692,32 @@ function WPOSTransactions() {
         var action, paymentid = $("#transpayid").val();
         var data = {id: curid, processdt: $("#transpaydt").datepicker("getDate").getTime(), method: $("#transpaymethod").val(), amount: $("#transpayamount").val()};
         if (paymentid == 0) {
-            action = "invoices/payments/add";
+            if(purchasemode){
+                action = "purchases/payments/add";
+            }else{
+                action = "invoices/payments/add";
+            }
+            //action = "invoices/payments/add";
         } else {
-            action = "invoices/payments/edit";
+            if(purchasemode){
+                action = "purchases/payments/edit";
+            }else{
+                action = "invoices/payments/edit";
+            }
+            //action = "invoices/payments/edit";
             data.paymentid = paymentid;
         }
         var result = WPOS.sendJsonData(action, JSON.stringify(data));
         if (result !== false) {
             transactions[curref] = result;
             $("#transpaydialog").dialog('close');
-            this.openTransactionDialog(curref);
+            console.log("purchasemode:"+purchasemode);
+            if(purchasemode){
+                this.openPurchaseTransactionDialog(curref);
+            }else{
+                this.openTransactionDialog(curref);
+            }
+            //this.openTransactionDialog(curref);
             reloadTransactionTables();
         }
         // hide loader
@@ -677,10 +728,21 @@ function WPOSTransactions() {
         var answer = confirm("Are you sure you want to delete this invoice payment?");
         if (answer) {
             WPOS.util.showLoader();
-            var result = WPOS.sendJsonData("invoices/payments/delete", JSON.stringify({id: curid, paymentid: id}));
+            if(purchasemode){
+                var result = WPOS.sendJsonData("purchases/payments/delete", JSON.stringify({id: curid, paymentid: id}));
+            }else{
+                var result = WPOS.sendJsonData("invoices/payments/delete", JSON.stringify({id: curid, paymentid: id}));
+            }
+            //var result = WPOS.sendJsonData("invoices/payments/delete", JSON.stringify({id: curid, paymentid: id}));
             if (result !== false) {
                 transactions[curref] = result;
-                this.openTransactionDialog(curref);
+                console.log("purchasemode:"+purchasemode);
+                if(purchasemode){
+                    this.openPurchaseTransactionDialog(curref);
+                }else{
+                    this.openTransactionDialog(curref);
+                }
+                //this.openTransactionDialog(curref);
                 reloadTransactionTables();
             }
             WPOS.util.hideLoader();
