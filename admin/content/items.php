@@ -83,11 +83,11 @@
                         <td><input id="itemdesc" type="text"/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right;"><label>Unit Cost:&nbsp;</label></td>
+                        <td style="text-align: right;"><label>Buying Cost:&nbsp;</label></td>
                         <td><input id="itemcost" type="text" value="0"/></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right;"><label>Unit Price:&nbsp;</label></td>
+                        <td style="text-align: right;"><label>Selling Price:&nbsp;</label></td>
                         <td><input id="itemprice" type="text" value="0"/></td>
                     </tr>
                     <tr>
@@ -177,11 +177,11 @@
             <td><input id="newitemdesc" type="text"/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Unit Cost:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Buying Cost:&nbsp;</label></td>
             <td><input id="newitemcost" type="text" value="0"/></td>
         </tr>
         <tr>
-            <td style="text-align: right;"><label>Unit Price:&nbsp;</label></td>
+            <td style="text-align: right;"><label>Selling Price:&nbsp;</label></td>
             <td><input id="newitemprice" type="text" value="0"/></td>
         </tr>
         <tr>
@@ -600,7 +600,7 @@
         }
 
         var csv = WPOS.data2CSV(
-            ['ID', 'Stock Code', 'Name', 'Description', 'Default Qty', 'Unit Cost', 'Unit Price', 'Tax Rule Name', 'Category Name', 'Supplier Name'],
+            ['ID', 'Stock Code', 'Name', 'Description', 'Default Qty', 'Buying Cost', 'Selling Price', 'Tax Rule Name', 'Category Name', 'Supplier Name'],
             ['id', 'code', 'name', 'description', 'qty', 'cost', 'price',
                 {key:'taxid', func: function(value){ var taxtable = WPOS.getTaxTable().rules; return taxtable.hasOwnProperty(value) ? taxtable[value].name : 'Unknown'; }},
                 {key:'categoryid', func: function(value){ return categories.hasOwnProperty(value) ? categories[value].name : 'Unknown'; }},
@@ -623,8 +623,8 @@
                 'name': {title:'Name', required: true},
                 'description': {title:'Description', required: false, value: ""},
                 'qty': {title:'Default Qty', required: false, value: 1},
-                'cost': {title:'Unit Cost', required: false, value: 0.00},
-                'price': {title:'Unit Price', required: false, value: ""},
+                'cost': {title:'Buying Cost', required: false, value: 0.00},
+                'price': {title:'Selling Price', required: false, value: ""},
                 'tax_name': {title:'Tax Rule Name', required: false, value: ""},
                 'supplier_name': {title:'Supplier Name', required: false, value: ""},
                 'category_name': {title:'Category Name', required: false, value: ""}

@@ -58,7 +58,7 @@
 </div><!-- /.row -->
 <div id="addinvoicedialog" class="hide" style="padding-left: 20px; padding-right: 20px;">
     <form id="addinvoiceform">
-        <label class="fixedlabel">Supplier: </label><select style="width: 180px;" id="ninvcustid"></select>
+        <label class="fixedlabel" id="custlabel">Supplier: </label><select style="width: 180px;" id="ninvcustid"></select>
         <div class="space-8"></div>
         <label class="fixedlabel">Invoice Date: </label><input type="text" id="ninvprocessdt" onclick="$(this).blur();"/>
         <div class="space-8"></div>
@@ -74,6 +74,7 @@
     var stime = (new Date().getTime() - 2.62974e9); // a week ago
     // ADD/EDIT DIALOG FUNCTIONS
     function showInvoiceForm(){
+        $("#custlabel").text('Supplier: ');
         $("#ninvprocessdt").datepicker('setDate', new Date());
         var increment = WPOS.util.parseDateString(WPOS.getConfigTable().invoice.defaultduedt);
         $("#ninvduedt").datepicker('setDate', new Date((new Date()).getTime()+increment));
