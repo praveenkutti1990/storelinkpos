@@ -17,12 +17,12 @@
     </select>
     <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
         <label>Transactions
-        <select id="reptranstype" onchange="generateReport();" style="vertical-align: middle; margin-right: 20px; margin-bottom: 5px;">
-            <option value="all">All Sales</option>
-            <option value="sale">POS Sales</option>
-            <option value="invoice">Invoices</option>
-            <option value="purchase">Purchases</option>
-        </select>
+            <select id="reptranstype" onchange="generateReport();" style="vertical-align: middle; margin-right: 20px; margin-bottom: 5px;">
+                <option value="all">All Sales</option>
+                <option value="sale">POS Sales</option>
+                <option value="invoice">Invoices</option>
+                <option value="purchase">Purchases</option>
+            </select>
         </label>
     </div>
     <div style="display: inline-block; vertical-align:middle; margin-right: 20px;">
@@ -50,15 +50,19 @@
     var stime;
 
     // Generate report
-    function generateReport(){
+    function generateReport() {
         // show loader
         WPOS.util.showLoader();
         var type = $("#reptype").val();
         // load the data
-        repdata = WPOS.sendJsonData(type, JSON.stringify({"stime":stime, "etime":etime, "type":$("#reptranstype").val()}));
+        repdata = WPOS.sendJsonData(type, JSON.stringify({
+            "stime": stime,
+            "etime": etime,
+            "type": $("#reptranstype").val()
+        }));
         console.log($("#reptranstype").val());
         // populate the report using the correct function
-        switch (type){
+        switch (type) {
             case "stats/general":
                 populateSummary();
                 break;
@@ -94,43 +98,43 @@
     }
 
     // REPORT GEN FUNCTIONS
-    function getReportHeader(heading){
-        return "<div id='#repheader' style='text-align: center; margin-bottom: 5px;'><h3>"+heading+"</h3><h5>"+$("#repstime").val()+" - "+$("#repetime").val()+"</h5></div>";
+    function getReportHeader(heading) {
+        return "<div id='#repheader' style='text-align: center; margin-bottom: 5px;'><h3>" + heading + "</h3><h5>" + $("#repstime").val() + " - " + $("#repetime").val() + "</h5></div>";
     }
 
-    function getCurrentReportHeader(heading){
+    function getCurrentReportHeader(heading) {
         var timestamp = new Date();
         timestamp = timestamp.getTime();
-        return "<div id='#repheader' style='text-align: center; margin-bottom: 5px;'><h3>"+heading+"</h3><h5>"+WPOS.util.getDateFromTimestamp(timestamp)+"</h5>";
+        return "<div id='#repheader' style='text-align: center; margin-bottom: 5px;'><h3>" + heading + "</h3><h5>" + WPOS.util.getDateFromTimestamp(timestamp) + "</h5>";
     }
 
-    function populateSummary(){
+    function populateSummary() {
         var html = getReportHeader("Summary");
 
-        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td></td><td># Sales</td><td>Total</td></tr></thead><tbody>";
-        if($("#reptranstype").val()=="purchase"){
-            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.salerefs+'\');">Purchases</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.saletotal)+'</td></tr>';
-        }else{
-            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.salerefs+'\');">Sales</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.saletotal)+'</td></tr>';
+        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td></td><td># Transactions</td><td>Total</td></tr></thead><tbody>";
+        if ($("#reptranstype").val() == "purchase") {
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.salerefs + '\');">Purchases</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.saletotal) + '</td></tr>';
+        } else {
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.salerefs + '\');">Sales</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.saletotal) + '</td></tr>';
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.refundrefs + '\');">Refunds</a></td><td>' + repdata.refundnum + '</td><td>' + WPOS.util.currencyFormat(repdata.refundtotal) + '</td></tr>';
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.voidrefs + '\');">Voids</a></td><td>' + repdata.voidnum + '</td><td>' + WPOS.util.currencyFormat(repdata.voidtotal) + '</td></tr>';
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.refs + '\');">Revenue</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.totaltakings) + '</td></tr>';
+            html += '<tr><td>Cost</td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.cost) + '</td></tr>';
+            html += '<tr><td>Profit</td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.profit) + '</td></tr>';
         }
-        
-        html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.refundrefs+'\');">Refunds</a></td><td>'+repdata.refundnum+'</td><td>'+WPOS.util.currencyFormat(repdata.refundtotal)+'</td></tr>';
-        html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.voidrefs+'\');">Voids</a></td><td>'+repdata.voidnum+'</td><td>'+WPOS.util.currencyFormat(repdata.voidtotal)+'</td></tr>';
-        html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+repdata.refs+'\');">Revenue</a></td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.totaltakings)+'</td></tr>';
-        html += '<tr><td>Cost</td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.cost)+'</td></tr>';
-        html += '<tr><td>Profit</td><td>'+repdata.salenum+'</td><td>'+WPOS.util.currencyFormat(repdata.profit)+'</td></tr>';
+
         html += "</tbody></table>";
 
         $("#reportcontain").html(html);
     }
 
-    function populateTakings(repname, colname){
+    function populateTakings(repname, colname) {
         var html = getReportHeader(repname);
-        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>"+colname+"</td><td># Sales</td><td>Takings</td><td># Refunds</td><td>Refunds</td><td>Balance</td></tr></thead><tbody>";
+        html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>" + colname + "</td><td># Sales</td><td>Takings</td><td># Refunds</td><td>Refunds</td><td>Balance</td></tr></thead><tbody>";
         var rowdata;
-        for (var i in repdata){
+        for (var i in repdata) {
             rowdata = repdata[i];
-            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refs+'\');">'+(rowdata.hasOwnProperty('name')?rowdata.name:i)+'</a></td><td>'+rowdata.salenum+'</td><td>'+WPOS.util.currencyFormat(rowdata.saletotal)+'</td><td><a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refundrefs+'\');">'+rowdata.refundnum+'</a></td><td>'+WPOS.util.currencyFormat(rowdata.refundtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.balance)+'</td></tr>';
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + rowdata.refs + '\');">' + (rowdata.hasOwnProperty('name') ? rowdata.name : i) + '</a></td><td>' + rowdata.salenum + '</td><td>' + WPOS.util.currencyFormat(rowdata.saletotal) + '</td><td><a onclick="WPOS.transactions.openTransactionList(\'' + rowdata.refundrefs + '\');">' + rowdata.refundnum + '</a></td><td>' + WPOS.util.currencyFormat(rowdata.refundtotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.balance) + '</td></tr>';
         }
 
         html += "</tbody></table>";
@@ -138,13 +142,13 @@
         $("#reportcontain").html(html);
     }
 
-    function populateSelling(title){
+    function populateSelling(title) {
         var html = getReportHeader(title);
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td># Sold</td><td>Total</td><td># Refunded</td><td>Total</td><td>Balance</td></tr></thead><tbody>";
         var rowdata;
-        for (var i in repdata){
+        for (var i in repdata) {
             rowdata = repdata[i];
-            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refs+'\');">'+rowdata.name+'</a></td><td>'+rowdata.soldqty+'</td><td>'+WPOS.util.currencyFormat(rowdata.soldtotal)+'</td><td>'+rowdata.refundqty+'</td><td>'+WPOS.util.currencyFormat(rowdata.refundtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.balance)+'</td></tr>';
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + rowdata.refs + '\');">' + rowdata.name + '</a></td><td>' + rowdata.soldqty + '</td><td>' + WPOS.util.currencyFormat(rowdata.soldtotal) + '</td><td>' + rowdata.refundqty + '</td><td>' + WPOS.util.currencyFormat(rowdata.refundtotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.balance) + '</td></tr>';
         }
 
         html += "</tbody></table>";
@@ -152,13 +156,13 @@
         $("#reportcontain").html(html);
     }
 
-    function populateItems(title){
+    function populateItems(title) {
         var html = getReportHeader(title);
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td># Sold</td><td>Discounts</td><td>Tax</td><td>Total</td><td># Refunded</td><td>Total</td><td>Balance</td></tr></thead><tbody>";
         var rowdata;
-        for (var i in repdata){
+        for (var i in repdata) {
             rowdata = repdata[i];
-            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refs+'\');">'+rowdata.name+'</a></td><td>'+rowdata.soldqty+'</td><td>'+WPOS.util.currencyFormat(rowdata.discounttotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.taxtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.soldtotal)+'</td><td>'+rowdata.refundqty+'</td><td>'+WPOS.util.currencyFormat(rowdata.refundtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.balance)+'</td></tr>';
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + rowdata.refs + '\');">' + rowdata.name + '</a></td><td>' + rowdata.soldqty + '</td><td>' + WPOS.util.currencyFormat(rowdata.discounttotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.taxtotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.soldtotal) + '</td><td>' + rowdata.refundqty + '</td><td>' + WPOS.util.currencyFormat(rowdata.refundtotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.balance) + '</td></tr>';
         }
 
         html += "</tbody></table>";
@@ -166,49 +170,49 @@
         $("#reportcontain").html(html);
     }
 
-    function populateTax(){
+    function populateTax() {
         var html = getReportHeader("Tax Breakdown");
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td># Items</td><td>Sale Subtotal</td><td>Tax</td><td>Refund Subtotal</td><td>Refund Tax</td><td>Total Tax</td></tr></thead><tbody>";
         var rowdata;
-        for (var i in repdata){
-            if (i!=0){
+        for (var i in repdata) {
+            if (i != 0) {
                 rowdata = repdata[i];
-                html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refs+'\');">'+rowdata.name+'</a></td><td>'+rowdata.qtyitems+'</td><td>'+WPOS.util.currencyFormat(rowdata.saletotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.saletax)+'</td><td>'+WPOS.util.currencyFormat(rowdata.refundtotal)+'</td><td>'+WPOS.util.currencyFormat(rowdata.refundtax)+'</td><td>'+WPOS.util.currencyFormat(rowdata.balance)+'</td></tr>';
+                html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + rowdata.refs + '\');">' + rowdata.name + '</a></td><td>' + rowdata.qtyitems + '</td><td>' + WPOS.util.currencyFormat(rowdata.saletotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.saletax) + '</td><td>' + WPOS.util.currencyFormat(rowdata.refundtotal) + '</td><td>' + WPOS.util.currencyFormat(rowdata.refundtax) + '</td><td>' + WPOS.util.currencyFormat(rowdata.balance) + '</td></tr>';
             }
         }
 
         html += "</tbody></table><br/>";
 
         rowdata = repdata[0];
-        html += '<p style="text-align: center;">Note: <a onclick="WPOS.transactions.openTransactionList(\''+rowdata.refs+'\');">'+rowdata.qty+'</a> sales have been cash rounded to a total amount of '+WPOS.util.currencyFormat(rowdata.total)+'.<br/>Since tax is calculated on a per item level, rounding has not been included in the calculations above.<br/>Subtotals above have discounts applied.</p>';
+        html += '<p style="text-align: center;">Note: <a onclick="WPOS.transactions.openTransactionList(\'' + rowdata.refs + '\');">' + rowdata.qty + '</a> sales have been cash rounded to a total amount of ' + WPOS.util.currencyFormat(rowdata.total) + '.<br/>Since tax is calculated on a per item level, rounding has not been included in the calculations above.<br/>Subtotals above have discounts applied.</p>';
 
         $("#reportcontain").html(html);
     }
 
-    function populateStock(){
+    function populateStock() {
         var html = getCurrentReportHeader("Current Stock");
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td>Name</td><td>Supplier</td><td>Location</td><td>Stock Qty</td><td>Stock Value</td></tr></thead><tbody>";
-        for (var i in repdata){
+        for (var i in repdata) {
             rowdata = repdata[i];
-            html += "<tr><td>"+rowdata.name+"</td><td>"+rowdata.supplier+"</td><td>"+rowdata.location+"</td><td>"+rowdata.stocklevel+"</td><td>"+rowdata.stockvalue+"</td></tr>"
+            html += "<tr><td>" + rowdata.name + "</td><td>" + rowdata.supplier + "</td><td>" + rowdata.location + "</td><td>" + rowdata.stocklevel + "</td><td>" + rowdata.stockvalue + "</td></tr>"
         }
         html += "</tbody></table>";
 
         $("#reportcontain").html(html);
     }
 
-    function printCurrentReport(){
+    function printCurrentReport() {
         browserPrintHtml($("#reportcontain").html());
     }
 
-    function exportCurrentReport(){
-        var data  = WPOS.table2CSV($("#reportcontain"));
-        var filename = $("#reportcontain div h3").text()+"-"+$("#reportcontain div h5").text();
+    function exportCurrentReport() {
+        var data = WPOS.table2CSV($("#reportcontain"));
+        var filename = $("#reportcontain div h3").text() + "-" + $("#reportcontain div h5").text();
         filename = filename.replace(" ", "");
         WPOS.initSave(filename, data);
     }
 
-    function browserPrintHtml(html){
+    function browserPrintHtml(html) {
         var printw = window.open('', 'wpos report', 'height=800,width=650');
         printw.document.write('<html><head><title>Wpos Report</title>');
         printw.document.write('<link media="all" href="/assets/css/bootstrap.min.css" rel="stylesheet"/><link media="all" rel="stylesheet" href="/assets/css/font-awesome.min.css"/><link media="all" rel="stylesheet" href="/assets/css/ace-fonts.css"/><link media="all" rel="stylesheet" href="/assets/css/ace.min.css"/>');
@@ -221,22 +225,30 @@
         printw.close();
     }
 
-    $(function(){
+    $(function() {
         etime = new Date().getTime();
         stime = (etime - 604800000); // a week ago
 
-        $("#repstime").datepicker({dateFormat:"dd/mm/yy", maxDate: new Date(etime),
-            onSelect: function(text, inst){
+        $("#repstime").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(etime),
+            onSelect: function(text, inst) {
                 var date = $("#repstime").datepicker("getDate");
-                date.setHours(0); date.setMinutes(0); date.setSeconds(0);
+                date.setHours(0);
+                date.setMinutes(0);
+                date.setSeconds(0);
                 stime = date.getTime();
                 generateReport();
             }
         });
-        $("#repetime").datepicker({dateFormat:"dd/mm/yy", maxDate: new Date(etime),
-            onSelect: function(text, inst){
+        $("#repetime").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(etime),
+            onSelect: function(text, inst) {
                 var date = $("#repetime").datepicker("getDate");
-                date.setHours(23); date.setMinutes(59); date.setSeconds(59);
+                date.setHours(23);
+                date.setMinutes(59);
+                date.setSeconds(59);
                 etime = date.getTime();
                 generateReport();
             }

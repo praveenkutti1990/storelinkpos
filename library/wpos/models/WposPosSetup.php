@@ -85,6 +85,7 @@ class WposPosSetup
         $result['data']->general = $settings['general'];
         $result['data']->pos = $settings['pos'];
         $result['data']->invoice = $settings['invoice'];
+        //$result['data']->subs = $settings['subs'];
 
         // get devices and locations
         if (($result['data']->devices=$this->getDevices())===false || ($result['data']->locations=$this->getLocations())===false){
@@ -139,6 +140,8 @@ class WposPosSetup
         $result['data']->general = $settings['general'];
         $result['data']->pos = $settings['pos'];
         $result['data']->invoice = $settings['invoice'];
+        $result['data']->plan = $settings['plan'];
+        $result['data']->exp_date = $settings['exp_date'];
 
         // get devices and locations
         if (($result['data']->devices=$this->getDevices())===false || ($result['data']->locations=$this->getLocations())===false){
