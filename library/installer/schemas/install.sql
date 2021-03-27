@@ -73,7 +73,7 @@ INSERT INTO `config` (`id`, `name`, `data`) VALUES
 (4, 'accounting', '{"xeroenabled":0,"xerotoken":"","xeroaccnmap":""}'),
 (5, 'templates', '{"invoice":{"name":"Default Invoice","type":"invoice","filename":"invoice.mustache"},"invoice_mixed":{"name":"Mixed Language","type":"invoice","filename":"invoice_mixed.mustache"},"invoice_alt":{"name":"Alternate Language","type":"invoice","filename":"invoice_alt.mustache"},"receipt":{"name":"Default Receipt","type":"receipt","filename":"receipt.mustache"},"receipt_mixed":{"name":"Mixed Language","type":"receipt","filename":"receipt_mixed.mustache"},"receipt_alt":{"name":"Alternate Language","type":"receipt","filename":"receipt_alt.mustache"}}'),
 (6, 'plan', '{"name":"superstore"}'),
-(7, 'exp-date', '{"date":"01/31/2022"}');
+(7, 'exp_date', '{"date":"01/31/2022"}');
 -- --------------------------------------------------------
 --
 -- Table structure for table `customers`
