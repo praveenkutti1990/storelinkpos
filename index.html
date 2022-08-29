@@ -37,6 +37,27 @@
     <script type="text/javascript">
         if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
+
+    <script>
+        // $(this).on('keypress', function(event) {
+        // if (event.keyCode == '90') {
+        //     alert('hi.')
+        // }
+        // });
+        document.addEventListener("keydown", function(event) {
+        if (event.altKey && event.keyCode == '49') {
+            WPOS.sales.showPaymentDialog();
+        } else if (event.altKey && event.keyCode == '48') {
+            WPOS.sales.userAbortSale();
+        } else if (event.altKey && event.keyCode == '50') {
+            WPOS.sales.addPayment('cash');
+        } else if (event.altKey && event.keyCode == '51') {
+            WPOS.sales.processSale();
+        } else if (event.altKey && event.keyCode == '52') {
+            WPOS.sales.saveOrder();
+        }
+        });
+    </script>
     <script src="/assets/js/bootstrap.min.js"></script>
     <script src="/assets/js/typeahead-bs2.min.js"></script>
     <script src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -175,11 +196,11 @@
                 <div id="regkey-container" class="pull-right">
                         <div id="regkey-inner">
                         <div id="registerkeydiv">
-                            <button class="regbtn btn btn-success" onClick="WPOS.sales.showPaymentDialog();">Process
+                            <button class="regbtn btn btn-success" onClick="WPOS.sales.showPaymentDialog();" style="padding: 0px;">Process(1)
                             </button>
-                            <button class="regbtn btn btn-danger" onClick="WPOS.sales.userAbortSale();">Abort</button>
-                            <button class="regbtn btn" onclick="WPOS.print.openCashDraw();">Till</button>
-                            <button class="regbtn btn" onclick="WPOS.trans.recallLastTransaction();">Recall</button>
+                            <button class="regbtn btn btn-danger" onClick="WPOS.sales.userAbortSale();">Abort(0)</button>
+                            <!-- <button class="regbtn btn" onclick="WPOS.print.openCashDraw();">Till</button> -->
+                            <!-- <button class="regbtn btn" onclick="WPOS.trans.recallLastTransaction();">Recall</button> -->
                         </div>
                         <div>
                             <button onclick="WPOS.trans.showTransactionView();" class="regbtn btn btn-primary"
@@ -946,14 +967,14 @@
             <button id="eftpospaybtn" class="btn btn-sm btn-success" onclick="WPOS.sales.startEftposPayment();">Start Eftpos</button>
         </div>
         <div style="margin-top: 20px;">
-            <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('cash');">Cash</button>
-            <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('credit');">Credit</button>
-            <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('eftpos');">Eftpos</button>
-            <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('cheque');">Cheque</button>
-            <button style="float: right;" class="btn btn-xs btn-primary" onclick="WPOS.sales.addAdditionalPayment();">Add Payment</button>
+            <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('cash');">Add Payment(2)</button>
+            <!-- <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('credit');">CreditCard</button> -->
+            <!-- <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('eftpos');">Eftpos</button> -->
+            <!-- <button class="btn btn-xs btn-primary" onclick="WPOS.sales.addPayment('cheque');">Cheque</button> -->
+            <!-- <button style="float: right;" class="btn btn-xs btn-primary" onclick="WPOS.sales.addAdditionalPayment();">Add Payment</button> -->
         </div>
     </div>
-    <button id="endsalebtn" class="btn btn-success" onclick="WPOS.sales.processSale();">Complete</button>
+    <button id="endsalebtn" class="btn btn-success" onclick="WPOS.sales.processSale();">Complete(3)</button>
     <button id="savesalebtn" class="btn btn-primary" onclick="WPOS.sales.saveOrder();">Add Order</button>
     <button class="btn btn-danger" onClick="$('#paymentsdiv').dialog('close');">Cancel</button>
 </div>
