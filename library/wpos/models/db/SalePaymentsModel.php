@@ -187,6 +187,7 @@ class SalePaymentsModel extends DbConfig
             $sql .= ' AND s.type=:type';
             $placeholders[':type'] = $ttype;
         }
+        
 
         if ($groupmethod){
             $sql .= ' GROUP BY method';

@@ -114,8 +114,12 @@
         html += "<table class='table table-stripped' style='width: 100%'><thead><tr><td></td><td># Transactions</td><td>Total</td></tr></thead><tbody>";
         if ($("#reptranstype").val() == "purchase") {
             html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.salerefs + '\');">Purchases</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.saletotal) + '</td></tr>';
-        } else {
+        } else if ($("#reptranstype").val() == "sale") {
             html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.salerefs + '\');">Sales</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.saletotal) + '</td></tr>';
+        } else if ($("#reptranstype").val() == "invoice") {
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.salerefs + '\');">Invoices</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.saletotal) + '</td></tr>';
+        }else {
+            html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.salerefs + '\');">Sales + Invoices</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.saletotal) + '</td></tr>';
             html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.refundrefs + '\');">Refunds</a></td><td>' + repdata.refundnum + '</td><td>' + WPOS.util.currencyFormat(repdata.refundtotal) + '</td></tr>';
             html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.voidrefs + '\');">Voids</a></td><td>' + repdata.voidnum + '</td><td>' + WPOS.util.currencyFormat(repdata.voidtotal) + '</td></tr>';
             html += '<tr><td><a onclick="WPOS.transactions.openTransactionList(\'' + repdata.refs + '\');">Revenue</a></td><td>' + repdata.salenum + '</td><td>' + WPOS.util.currencyFormat(repdata.totaltakings) + '</td></tr>';

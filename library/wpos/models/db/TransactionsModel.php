@@ -181,8 +181,14 @@ class TransactionsModel extends DbConfig
             $placeholders[':type'] = $ttype;
         }
 
+        if ($ttype!='purchase'){
+            $sql .= " AND type != 'purchase'";
+        }      
+
         return $this->select($sql, $placeholders);
     }
+
+
 
     /**
      * Returns unpaid totals (for accural accounting purposes) for a given time span
