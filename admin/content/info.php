@@ -28,7 +28,7 @@
             </div>
             <div class="widget-body" style="padding-top: 10px;">
                 <p>Please refer here for information on support & development:<br />
-                    <a href="https://www.storelink.xyz/" target="_blank">storelink.xyz</a>
+                    <a href="https://www.storelink.xyz/" target="_blank">storelink.shop</a>
                 </p>
             </div>
         </div>
