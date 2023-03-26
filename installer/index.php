@@ -40,12 +40,12 @@ function checkDependencies(){
         $result['all'] = false;
 
     // check apache version
-    $version = str_replace("Apache/", "", apache_get_version());
-    $version = str_replace(" (Ubuntu)", "", $version);
-    if (version_compare($result['apache_version']=$version, "2.4.7")<0){
-        $result['all'] = false;
-        $result['apache'] = false;
-    }
+    // $version = str_replace("Apache/", "", apache_get_version());
+    // $version = str_replace(" (Ubuntu)", "", $version);
+    // if (version_compare($result['apache_version']=$version, "2.4.7")<0){
+    //     $result['all'] = false;
+    //     $result['apache'] = false;
+    // }
 
     // check php version
     $phpversion = phpversion();
@@ -69,11 +69,11 @@ function checkDependencies(){
 	}
 
     // required apache modules
-    $apache_mods = apache_get_modules();
-    if (!$result['apache_wstunnel']=in_array("mod_proxy_wstunnel", $apache_mods))
-        $result['all'] = false;
-    if (!$result['apache_rewrite']=in_array("mod_rewrite", $apache_mods))
-        $result['all'] = false;
+    // $apache_mods = apache_get_modules();
+    // if (!$result['apache_wstunnel']=in_array("mod_proxy_wstunnel", $apache_mods))
+    //     $result['all'] = false;
+    // if (!$result['apache_rewrite']=in_array("mod_rewrite", $apache_mods))
+    //     $result['all'] = false;
 
     // required php extensions
     $php_mods = get_loaded_extensions();
