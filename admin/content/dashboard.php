@@ -1,4 +1,8 @@
 <!-- WallacePOS: Copyright (c) 2014 WallaceIT <micwallace@gmx.com> <https://www.gnu.org/licenses/lgpl.html> -->
+<style>
+    .infobox{width: 250px;}
+</style>
+
 <div class="page-header">
     <h1>
         Dashboard
