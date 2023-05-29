@@ -452,11 +452,15 @@ function WPOSPrint(kitchenMode) {
     function printReceipt(ref) {
         var record = WPOS.trans.getTransactionRecord(ref);
         var method = getPrintSetting('receipts', 'method');
+        console.log(method);
         switch (method) {
             case "br":
+                console.log(record);
                 if (curset.printinv) {
+                    console.log("i am in if part");
                     browserPrintHtml(getHtmlReceipt(record, false, true), 'WallacePOS Invoice', 600, 800);
                 } else {
+                    console.log("i am in else part");
                     browserPrintHtml(getHtmlReceipt(record, false), 'WallacePOS Receipt', 310, 600);
                 }
                 return true;
@@ -481,6 +485,7 @@ function WPOSPrint(kitchenMode) {
     }
 
     function printESCPReceipt(data){
+        console.log(data);
         if (WPOS.getConfigTable().pos.recprintlogo == true) {
             getESCPImageString(window.location.protocol + "//" + document.location.hostname + WPOS.getConfigTable().pos.reclogo, function (imgdata) {
                 appendQrcode("receipts", imgdata + data);
@@ -636,9 +641,10 @@ function WPOSPrint(kitchenMode) {
             var itemlabel;
             var itemname = (lang == "alternate" ? convertUnicodeCharacters(item.alt_name, getGlobalPrintSetting('alt_charset'), getGlobalPrintSetting('alt_codepage')) : item.name);
             if (ltr){
+                console.log(item)
                 itemlabel = item.qty + " x " + itemname + " (" + WPOS.util.currencyFormat(item.unit, false, true) + ")";
             } else {
-                itemlabel = "(" + WPOS.util.currencyFormat(item.unit, false, true) + ")" + itemname + " x " + item.qty;
+                itemlabel = "(" + WPOS.util.currencyFormat(item.unit, false, true) + ")" + itemname + " x " + item.qty ;
             }
 
             cmd += getEscTableRow(itemlabel, WPOS.util.currencyFormat(item.price, false, true), false, false, true);
@@ -1140,6 +1146,7 @@ function WPOSPrint(kitchenMode) {
                 tempid = config.pos.rectemplate;
             }
         }
+        console.log(config);
         var template = WPOS.getConfigTable()['templates'][tempid];
         if (!template) {
             alert("Could not load template");
@@ -1279,6 +1286,8 @@ function WPOSPrint(kitchenMode) {
             if (!WPOS.getLocalConfig().eftpos.receipts)
                 temp_data.eftpos_receipts = '';
         }
+        console.log(temp_data);
+        console.log(template);
 
         return Mustache.render(template.template, temp_data);
     }
@@ -1288,6 +1297,8 @@ function WPOSPrint(kitchenMode) {
 
         var printw = window.open('', name, 'height='+height+',width='+width+',scrollbars=yes');
 
+        console.log(name);
+        console.log(html);
         printw.document.write(html);
         printw.document.close();
 
