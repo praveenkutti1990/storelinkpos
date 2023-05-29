@@ -95,12 +95,16 @@
             <td>Sale Time: </td>
             <td>{{sale_dt}}</td>
         </tr>
-        <tr><th>Qty</th><th>Product (Rate) (Tax)</th><th style="text-align: right; vertical-align: top;">Amount</th></tr>
+        <tr><th>Qty</th><th>Product</th><th style="text-align: right; vertical-align: top;">Amount</th></tr>
     </table>
 
     <table>
         {{#sale_items}}
-            <tr><td>{{qty}} x {{name}} ({{#currency}}{{unit}}{{/currency}})  </td><td> ({{#tax}}{{total}}{{/tax}})</td><td style="text-align: right; vertical-align: top;">{{#currency}}{{price}}{{/currency}}</td></tr>
+            <tr><td>{{qty}} x </td><td>{{name}} ({{#currency}}{{unit}}{{/currency}})</td><td style="text-align: right; vertical-align: top;">{{#currency}}{{price}}{{/currency}}</td></tr>
+	        <tr><td></td><td style="text-align: right;">
+		    {{#sale_tax}}{{label}} - {{#tax}}{{total}}{{/tax}}{{/sale_tax}}
+		    {{^sale_tax}}No Tax - 0{{/sale_tax}}
+	        </td><td></td></tr>
             {{#print_desc}}
                 <tr><td></td><td>{{desc}}</td><td></td></tr>
             {{/print_desc}}
