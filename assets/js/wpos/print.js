@@ -452,15 +452,13 @@ function WPOSPrint(kitchenMode) {
     function printReceipt(ref) {
         var record = WPOS.trans.getTransactionRecord(ref);
         var method = getPrintSetting('receipts', 'method');
-        console.log(method);
+        // console.log(method);
         switch (method) {
             case "br":
-                console.log(record);
+                // console.log(record);
                 if (curset.printinv) {
-                    console.log("i am in if part");
                     browserPrintHtml(getHtmlReceipt(record, false, true), 'WallacePOS Invoice', 600, 800);
                 } else {
-                    console.log("i am in else part");
                     browserPrintHtml(getHtmlReceipt(record, false), 'WallacePOS Receipt', 310, 600);
                 }
                 return true;
@@ -485,7 +483,7 @@ function WPOSPrint(kitchenMode) {
     }
 
     function printESCPReceipt(data){
-        console.log(data);
+        // console.log(data);
         if (WPOS.getConfigTable().pos.recprintlogo == true) {
             getESCPImageString(window.location.protocol + "//" + document.location.hostname + WPOS.getConfigTable().pos.reclogo, function (imgdata) {
                 appendQrcode("receipts", imgdata + data);
@@ -1146,7 +1144,7 @@ function WPOSPrint(kitchenMode) {
                 tempid = config.pos.rectemplate;
             }
         }
-        console.log(config);
+        // console.log(config);
         var template = WPOS.getConfigTable()['templates'][tempid];
         if (!template) {
             alert("Could not load template");
@@ -1286,8 +1284,6 @@ function WPOSPrint(kitchenMode) {
             if (!WPOS.getLocalConfig().eftpos.receipts)
                 temp_data.eftpos_receipts = '';
         }
-        console.log(temp_data);
-        console.log(template);
 
         return Mustache.render(template.template, temp_data);
     }
@@ -1296,9 +1292,6 @@ function WPOSPrint(kitchenMode) {
     function browserPrintHtml(html, name, width, height) {
 
         var printw = window.open('', name, 'height='+height+',width='+width+',scrollbars=yes');
-
-        console.log(name);
-        console.log(html);
         printw.document.write(html);
         printw.document.close();
 
