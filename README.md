@@ -10,10 +10,10 @@ With a rich administration dashboard and reporting features, WallacePOS brings b
 Take your business into the cloud with StorelinkPOS!
 
 # Best When used with the below versions
-OS: CentOS 7
-PHP: 5.4.16 or higher
-Apache: 2.4.6 or higher
-Maria DB: 10.4.32 (mysql 15.1) or higher
+## OS: CentOS 7
+## PHP: 5.4.16 or higher
+## Apache: 2.4.6 or higher
+## Maria DB: 10.4.32 (mysql 15.1) or higher
 
 # Things to take care while doing the installation.
 ## Issue: File not writeable even though permissions are 777
