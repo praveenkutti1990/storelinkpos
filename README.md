@@ -18,9 +18,7 @@ Maria DB: 10.4.32 (mysql 15.1) or higher
 # Things to take care while doing the installation.
 ## Issue: File not writeable even though permissions are 777
 Solution: Check Selinux permission
-    It's more than possible that you have SELinux running on the machine. To check whether it's running or not you should be able to run     the getenforce command on the commandline. If it returns "Enforcing" then SELinux is enabled and running in enforcing mode.
-
-    I'd suggest that in most cases (unless you want to spend days learning about SElinux) that you disable it by running setenforce          Permissive and editing /etc/sysconfig/selinux so that next time the server restarts it won't reactivate it.
+    It's more than possible that you have SELinux running on the machine. To check whether it's running or not you should be able to run     the getenforce command on the commandline. If it returns "Enforcing" then SELinux is enabled and running in enforcing mode. I'd suggest that in most cases (unless you want to spend days learning about SElinux) that you disable it by running setenforce Permissive and editing /etc/sysconfig/selinux so that next time the server restarts it won't reactivate it.
 
 ### Below are Info from Wallace POS as is.
 To find out more about WallacePOS, head over to [wallacepos.com](https://wallacepos.com)
