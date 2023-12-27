@@ -1,17 +1,28 @@
 ### Note: WallacePOS is not longer actively maintained. If you would like to become a maintainer of this project please let me know.
 
-# WallacePOS
-## An intuitive & modern web based POS system
-![logo](https://wallacepos.com/images/wallacepos_logo_600.png)
+# StorelinkPOS
+## An intuitive & modern web based POS system based on Wallace POS with some customizations
 
-WallacePOS uses the power of the modern web to provide an easy to use & extensible POS system.
-
+StorelinkPOS uses the power of the modern web to provide an easy to use & extensible POS system.
 It supports standard POS hardware including receipt printers, cashdraws and barcode scanners.
 
 With a rich administration dashboard and reporting features, WallacePOS brings benefits to managers and staff alike.
+Take your business into the cloud with StorelinkPOS!
 
-Take your business into the cloud with WallacePOS!
+# Best When used with the below versions
+OS: CentOS 7
+PHP: 5.4.16 or higher
+Apache: 2.4.6 or higher
+Maria DB: 10.4.32 (mysql 15.1) or higher
 
+## Things to take care while doing the installation.
+# Issue: File not writeable even though permissions are 777
+# Solution: Check Selinux permission
+    It's more than possible that you have SELinux running on the machine. To check whether it's running or not you should be able to run     the getenforce command on the commandline. If it returns "Enforcing" then SELinux is enabled and running in enforcing mode.
+
+    I'd suggest that in most cases (unless you want to spend days learning about SElinux) that you disable it by running setenforce          Permissive and editing /etc/sysconfig/selinux so that next time the server restarts it won't reactivate it.
+
+### Below are Info from Wallace POS as is.
 To find out more about WallacePOS, head over to [wallacepos.com](https://wallacepos.com)
 
 If you find that WallacePOS is the perfect companion for your business, please donate to support further development.
