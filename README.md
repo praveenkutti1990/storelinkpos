@@ -1,5 +1,3 @@
-### Note: WallacePOS is not longer actively maintained. If you would like to become a maintainer of this project please let me know.
-
 # StorelinkPOS
 ## An intuitive & modern web based POS system based on Wallace POS with some customizations
 
